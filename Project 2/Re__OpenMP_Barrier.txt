@@ -1,0 +1,40 @@
+Dear Colleague,
+
+As you may already know, I am overseeing the development of a new
+parallel programming library for shared memory machines called gtmp.
+I asked one of my developers to implement several barrier
+synchronization and run some experiments to help us decide which to
+adopt.  The results were a little surprising to me, and I was hoping
+that I could get your to share your thoughts on them.
+
+In summary, we compared the algorithms presented in the famous
+Mellor-Crummey Scott paper by measuring how long it took for a given
+number of threads to cross 10^6 barriers. All experiments were run on
+a dedicated machine with 24 cores total. Details on the machine are
+attached along with the data from the experiments.
+
+Looking forward to your insight!
+
+On initial view of the graph it is strange to see that the counter barrier implementation had 
+the best performance overall and that the tree barrier implementation (mcs and combined) were 
+the worst overall. The dissemination, tournament and omp method were in between. This is 
+curious and after reviewing the MCS paper they do mention that there needs to be parallel 
+architecture considerations when reviewing which barrier implementation to use. This paper was 
+written in the 90s and that they were optimizing for a problem that they acknowledge could be 
+solved with hardware and specifically hardware combining. I suspect that since then hardware 
+solutions have been cheaper and implemented. One such optimization that could be a reason for 
+the centralized counter implementation to outperform the other algorithms is that the 
+architecture is broadcast-based cache-coherent multiprocessor.
+
+Furthermore, I see the specifications of the processor being used and notice that there is a 
+sizeable cache size of 15 MB, meaning that each thread can spin its local variable on a cache 
+line leading to no false sharing. Making the centralized counting barrier not lose its 
+performance. 
+
+Another possible explanation for the results shown is that maybe not enough processors were 
+tested and maybe more threads could be spun up on each processor (6 cores). This will increase 
+the critical path, which counter typically scales in a linear fashion and the tree and mcs 
+implementation scales in a log fashion providing an advantage for tree and mcs algorithms for 
+much larger order of processors. 
+
+
