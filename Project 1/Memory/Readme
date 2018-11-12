@@ -1,0 +1,11 @@
+To compile this memory coordinator: 
+1) Open a terminal and go to this directory
+2) Run the command "make"
+
+To Run this memory coordinator:
+1) Set maximum memory where it has to be less than the host (my code does not check for this condition!)
+2) Create and start any number of virtual machines.
+3) Run the monitor.py to see performance
+4) Run command "./memory_coordinator <period(s)>" I typically do a period between 0.25 and 1 seconds
+5) Run processes on the virtual machines like the python files in test/cpu. 
+6) See the output on the console and monitor.py (there is a chart which can be modified).

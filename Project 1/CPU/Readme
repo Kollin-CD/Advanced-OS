@@ -1,0 +1,10 @@
+To compile this scheduler: 
+1) Open a terminal and go to this directory
+2) Run the command "make"
+
+To Run this scheduler:
+1) Create and start any number of virtual machines.
+2) Run processes on the virtual machines like the python files in test/cpu. 
+3) Run the monitor.py to see performance
+4) Run command "./vcpu_scheduler <period(s)>" I typically do a period between 0.25 and 1 seconds
+5) See the output on the console and monitor.py
